@@ -17,3 +17,19 @@ async def sign_new_user(data: User) -> dict:
     return{
         "message":"User successfully registered!"
     }
+
+@user_router.post("/signin")
+async def sing_user_in(user: UserSignIn) -> dict:
+    if user.email in users:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User does not exists"
+        )
+    if users[user.email].password != user.password:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Wrong credentials passed"
+        )
+    return{
+        "message":"User signed in successfully."
+    }
