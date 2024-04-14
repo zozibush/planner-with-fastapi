@@ -4,3 +4,6 @@ venv/*
 
 # VSCode
 .vscode/*
+
+# DB
+planner.db
