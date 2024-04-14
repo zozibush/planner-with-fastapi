@@ -17,10 +17,11 @@ async def retrieve_all_vents(session=Depends(get_session)) -> List[Event]:
     return events
 
 @event_router.get("/{id}", response_model=Event)
-async def retrieve_event(id: int) -> Event:
-    for event in events:
-        if event.id == id:
-            return event
+async def retrieve_event(id: int, session=Depends(get_session)) -> Event:
+    event = session.get(Event, id)
+    if event:
+        return event
+
     raise HTTPException(
         status_code=status.HTTP_404_NOT_FOUND,
         detail = "Event with supplied ID does not exist"
