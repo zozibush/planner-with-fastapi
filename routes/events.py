@@ -33,7 +33,7 @@ async def create_event(body: Event = Body(...)) -> dict:
 async def delete_event(id: int) -> dict:
     for event in events:
         if event.id == id:
-            event.remove(event)
+            events.remove(event)
             return {
                 "message":"Event deleted successfully"
             }
