@@ -21,3 +21,10 @@ async def retrieve_event(id: int) -> Event:
         status_code=status.HTTP_404_NOT_FOUND,
         detail = "Event with supplied ID does not exist"
     )
+
+@event_router.post("/new")
+async def create_event(body: Event = Body(...)) -> dict:
+    events.append(body)
+    return {
+        "message":"Event created successfully"
+    }
