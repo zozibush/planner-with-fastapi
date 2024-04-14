@@ -8,8 +8,6 @@ event_router = APIRouter(
     tags = ["Events"]
 )
 
-events = []
-
 @event_router.get("/", response_model=List[Event])
 async def retrieve_all_vents(session=Depends(get_session)) -> List[Event]:
     statement = select(Event)
@@ -70,9 +68,9 @@ async def delete_event(id: int, session=Depends(get_session)) -> dict:
         detail = "Event with supplied ID does not exist"
     )
 
-@event_router.delete("/")
-async def delete_all_events() -> dict:
-    events.clear()
-    return {
-        "message":"Events deleted successfully"
-    }
+# @event_router.delete("/")
+# async def delete_all_events() -> dict:
+#     events.clear()
+#     return {
+#         "message":"Events deleted successfully"
+#     }
