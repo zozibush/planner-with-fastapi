@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, Request, status
 from database.connection import get_session
 from models.events import Event, EventUpdate
 from typing import List
+from sqlmodel import select
 
 event_router = APIRouter(
     tags = ["Events"]
@@ -10,7 +11,9 @@ event_router = APIRouter(
 events = []
 
 @event_router.get("/", response_model=List[Event])
-async def retrieve_events() -> List[Event]:
+async def retrieve_all_vents(session=Depends(get_session)) -> List[Event]:
+    statement = select(Event)
+    events = session.exec(statement).all()
     return events
 
 @event_router.get("/{id}", response_model=Event)
